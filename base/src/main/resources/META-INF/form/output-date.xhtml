@@ -1,0 +1,22 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://giava.by/common/form">
+	
+	<c:choose>
+		<c:when test="#{empty id}">
+			<h:outputText value="#{value}">
+				<f:convertDateTime pattern="dd/MM/yyyy" locale="IT" timeZone="GMT+1" />
+			</h:outputText>
+		</c:when>
+		<c:otherwise>
+			<h:outputText id="#{id}" value="#{value}">
+				<f:convertDateTime pattern="dd/MM/yyyy" locale="IT" timeZone="GMT+1" />
+			</h:outputText>
+		</c:otherwise>
+	</c:choose>
+
+</ui:composition>

@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:perm="http://giava.by/common/permissions">
+
+	<c:if test="${empty rendered}">
+		<c:set var="rendered" value="true" />
+	</c:if>
+
+	<c:if test="${empty roles}">
+		<c:set var="roles" value="" />
+	</c:if>
+	<c:if test='${not empty allow and allow == "false"}'>
+		<c:set var="roles" value="FORBIDDEN" />
+	</c:if>
+
+	<c:choose>
+		<c:when test='${rendered == "true" and not empty acl}'>
+			<h:outputText value="#{perm:redirectTo(acl,to)}" />
+		</c:when>
+		<c:when test='${rendered == "true" and empty acl}'>
+			<h:outputText value="#{perm:redirectByRolesTo(roles,to)}" />
+		</c:when>
+	</c:choose>
+
+</ui:composition>

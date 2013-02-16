@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://giava.by/common/form"
+	xmlns:gb="http://giava.by/common/base">
+
+	<c:if test="#{empty okToEdit}">
+		<c:set var="okToEdit" value="true" />
+	</c:if>
+	<c:if test="#{empty okToView}">
+		<c:set var="okToView" value="true" />
+	</c:if>
+	<c:if test="#{empty okToDelete}">
+		<c:set var="okToDelete" value="false" />
+	</c:if>
+
+	<gb:center>
+
+		<ui:insert name="before" />
+
+		<h:commandLink action="#{controller.modElement}">
+			<h:graphicImage alt="Modifica" title="Vai alla pagina di modifica"
+				library="images/form" name="edit.gif" style="border: none;"
+				rendered="#{okToEdit}" />
+		</h:commandLink>
+		<gb:spacer width="5px" rendered="#{okToView}" />
+		<h:commandLink action="#{controller.viewElement}"
+			rendered="#{okToView}">
+			<h:graphicImage alt="Visualizza"
+				title="Vai alla pagina di visualizzazione" library="images/form"
+				name="view.gif" style="border: none;" />
+		</h:commandLink>
+		<gb:spacer width="5px" rendered="#{okToDelete}" />
+		<h:commandLink action="#{controller.deleteInline}"
+			rendered="#{okToDelete}"
+			onclick="if (!confirm('Vuoi veramente eliminare l\' elemento selezionato?')) return false">
+			<h:graphicImage alt="Elimina" title="Elimina" library="images/form"
+				name="delete.gif" style="border: none;" />
+		</h:commandLink>
+
+		<ui:insert name="after" />
+
+	</gb:center>
+
+</ui:composition>

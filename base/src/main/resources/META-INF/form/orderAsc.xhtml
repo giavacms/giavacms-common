@@ -1,0 +1,14 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"	>
+
+	<h:commandLink action="#{handler[method]}" immediate="true">
+		<h:graphicImage library="images/form" name="up-sort.gif"
+			style="border: none;" alt="ordinamento ascendente"
+			title="ordinamento ascendente" />
+		<f:param name="orderBy" value="#{field} asc" />
+	</h:commandLink>
+
+</ui:composition>

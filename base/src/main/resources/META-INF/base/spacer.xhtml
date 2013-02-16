@@ -1,0 +1,23 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	
+	<c:if test="#{empty rendered}">
+		<c:set var="rendered" value="true" />
+	</c:if>
+	
+	<c:if test="#{empty width}">
+		<c:set var="width" value="100%" />
+	</c:if>
+	
+	<c:if test="#{empty heigth}">
+		<c:set var="heigth" value="10px" />
+	</c:if>
+	
+	<h:graphicImage name="space.png" library="images/giava" rendered="#{rendered}" width="#{width}" height="#{heigth}" alt="_____________"
+	style="border: 0px;"/>
+	
+</ui:composition>

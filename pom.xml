@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<artifactId>giavacms-parent</artifactId>
+		<groupId>org.giavacms</groupId>
+		<version>2.0.0</version>
+	</parent>
+
+	<groupId>org.giavacms.common</groupId>
+	<artifactId>giavacms-common</artifactId>
+
+	<packaging>pom</packaging>
+
+	<name>GiavaCMS Common Libraries: Parent Aggregator</name>
+	<description>GiavaCMS Common Libraries: Parent Aggregator</description>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<properties>
+	</properties>
+
+	<modules>
+		<module>base</module>
+		<module>print</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+
+			<!-- Modules in this project -->
+			<dependency>
+				<groupId>org.giavacms.common</groupId>
+				<artifactId>giavacms-common-base</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+
+		<!-- Apache commons -->
+
+
+
+		<!-- XHTML renderer -->
+		<dependency>
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.xhtmlrenderer</groupId>
+			<artifactId>core-renderer</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+	</dependencies>
+</project>
