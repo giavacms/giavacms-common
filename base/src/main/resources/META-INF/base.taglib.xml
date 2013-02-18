@@ -33,67 +33,67 @@
  </tag>
  <function>
   <function-name>bcrumbs</function-name>
-  <function-class>by.giava.common.util.JSFUtils</function-class>
+  <function-class>org.giavacms.common.util.JSFUtils</function-class>
   <function-signature>java.lang.String breadcrumbs()</function-signature>
  </function>
  <function>
   <function-name>primebcrumbs</function-name>
-  <function-class>by.giava.common.util.JSFUtils</function-class>
+  <function-class>org.giavacms.common.util.JSFUtils</function-class>
   <function-signature>java.lang.String primeBreadcrumbs()</function-signature>
  </function>
  <function>
   <function-name>date</function-name>
-  <function-class>by.giava.common.util.DateUtils</function-class>
+  <function-class>org.giavacms.common.util.DateUtils</function-class>
   <function-signature>java.util.Date getLinuxDate()</function-signature>
  </function>
  <function>
   <function-name>count</function-name>
-  <function-class>by.giava.common.util.JSFUtils</function-class>
+  <function-class>org.giavacms.common.util.JSFUtils</function-class>
   <function-signature>int count(java.util.Collection)</function-signature>
  </function>
  <function>
   <function-name>sessionId</function-name>
-  <function-class>by.giava.common.util.JSFUtils</function-class>
+  <function-class>org.giavacms.common.util.JSFUtils</function-class>
   <function-signature>java.lang.String getSessionId()</function-signature>
  </function>
  <function>
   <function-name>hostPort</function-name>
-  <function-class>by.giava.common.util.JSFUtils</function-class>
+  <function-class>org.giavacms.common.util.JSFUtils</function-class>
   <function-signature>java.lang.String getHostPort()</function-signature>
  </function>
  <function>
   <function-name>lastPartOf</function-name>
-  <function-class>by.giava.common.util.FileUtils</function-class>
+  <function-class>org.giavacms.common.util.FileUtils</function-class>
   <function-signature>java.lang.String getLastPartOf(java.lang.String)</function-signature>
  </function>
  <function>
   <function-name>extension</function-name>
-  <function-class>by.giava.common.util.FileUtils</function-class>
+  <function-class>org.giavacms.common.util.FileUtils</function-class>
   <function-signature>java.lang.String getExtension(java.lang.String)</function-signature>
  </function>
  <function>
   <function-name>clean</function-name>
-  <function-class>by.giava.common.util.StringUtils</function-class>
+  <function-class>org.giavacms.common.util.StringUtils</function-class>
   <function-signature>java.lang.String clean(java.lang.String)</function-signature>
  </function>
  <function>
   <function-name>imageWidthProportional</function-name>
-  <function-class>by.giava.common.util.ImageUtils</function-class>
+  <function-class>org.giavacms.common.util.ImageUtils</function-class>
   <function-signature>java.lang.Integer getImageWidthProportional(java.lang.Object, java.lang.Integer, java.lang.Integer)</function-signature>
  </function>
  <function>
   <function-name>imageWidthProportionalUrl</function-name>
-  <function-class>by.giava.common.util.ImageUtils</function-class>
+  <function-class>org.giavacms.common.util.ImageUtils</function-class>
   <function-signature>java.lang.Integer getImageWidthProportionalByUrl(java.lang.String, java.lang.Integer, java.lang.Integer)</function-signature>
  </function>
  <function>
   <function-name>imageHeightProportional</function-name>
-  <function-class>by.giava.common.util.ImageUtils</function-class>
+  <function-class>org.giavacms.common.util.ImageUtils</function-class>
   <function-signature>java.lang.Integer getImageHeightProportional(java.lang.Object, java.lang.Integer, java.lang.Integer)</function-signature>
  </function>
  <function>
   <function-name>imageHeightProportionalUrl</function-name>
-  <function-class>by.giava.common.util.ImageUtils</function-class>
+  <function-class>org.giavacms.common.util.ImageUtils</function-class>
   <function-signature>java.lang.Integer getImageHeightProportionalByUrl(java.lang.String, java.lang.Integer, java.lang.Integer)</function-signature>
  </function>
 	<function>
