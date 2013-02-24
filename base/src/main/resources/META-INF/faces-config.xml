@@ -8,8 +8,8 @@
 		<renderer>
 			<component-family>javax.faces.Command</component-family>
 			<renderer-type>uiRepeatPagerWithParams</renderer-type>
-			<renderer-class>
-				by.giava.common.renderer.UIRepeatPagerWithParams</renderer-class>
+			<renderer-class>org.giavacms.common.renderer.UIRepeatPagerWithParams
+			</renderer-class>
 		</renderer>
 	</render-kit>
 
