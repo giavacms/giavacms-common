@@ -125,16 +125,4 @@ public class ModuleRegistry {
 		return new SelectItem[] {};
 	}
 
-	@Named
-	@Produces
-	public List<String> getExtensions() {
-		List<String> extensions = new ArrayList<String>();
-		for (ModuleProvider moduleProvider : modules.values()) {
-			if (moduleProvider instanceof ExtensionProvider) {
-				extensions.addAll(((ExtensionProvider) moduleProvider)
-						.getExtensions());
-			}
-		}
-		return extensions;
-	}
 }

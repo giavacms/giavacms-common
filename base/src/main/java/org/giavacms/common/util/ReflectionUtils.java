@@ -78,6 +78,7 @@ public class ReflectionUtils
     * @throws URISyntaxException
     * @throws IOException
     */
+   @SuppressWarnings("rawtypes")
    public static String[] getResourceListing(Class clazz, String path)
    {
       try

@@ -35,7 +35,6 @@ import org.primefaces.component.menuitem.MenuItem;
 import org.primefaces.model.DefaultMenuModel;
 import org.primefaces.model.MenuModel;
 
-
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class JSFUtils
 {
@@ -115,42 +114,67 @@ public class JSFUtils
             String idField, String valueField, String emptyMessage,
             String labelMessage)
    {
-      Class clazz = ricerca.getObj().getClass();
+      Class ID_Class = null;
+      Class VALUE_Class = null;
+      Field ID_Field = null;
+      Field VALUE_Field = null;
+
+      ID_Class = ricerca.getObj().getClass();
+      while (ID_Class != null)
+      {
+         try
+         {
+            ID_Field = ID_Class.getDeclaredField(idField);
+            ID_Field.setAccessible(true);
+            // esco dal ciclo
+            break;
+         }
+         catch (Exception e)
+         {
+            // ciclo sui campi della superclasse ora che c'e' estensione
+            ID_Class = ID_Class.getSuperclass();
+         }
+      }
+
+      VALUE_Class = ricerca.getObj().getClass();
+      while (VALUE_Class != null)
+      {
+         try
+         {
+            VALUE_Field = VALUE_Class.getDeclaredField(valueField);
+            VALUE_Field.setAccessible(true);
+            // esco dal ciclo
+            break;
+         }
+         catch (Exception e)
+         {
+            VALUE_Class = VALUE_Class.getSuperclass();
+         }
+      }
+
       SelectItem[] selectItems = new SelectItem[1];
       selectItems[0] = new SelectItem(null, emptyMessage);
       List entities = ejb.getList(ricerca, 0, 0);
       if (entities != null && entities.size() > 0)
       {
-         selectItems = new SelectItem[entities.size() + 1];
-         selectItems[0] = new SelectItem(null, labelMessage);
-         int i = 1;
+         boolean allowNull = labelMessage != null && labelMessage.trim().length() > 0;
+         selectItems = new SelectItem[entities.size() + (allowNull ? 1 : 0)];
+         if (allowNull)
+         {
+            selectItems[0] = new SelectItem(null, labelMessage);
+         }
+         int i = (allowNull ? 1 : 0);
          for (Object o : entities)
          {
             try
             {
-               Field ID_Field = clazz.getDeclaredField(idField);
-               ID_Field.setAccessible(true);
-               Field VALUE_Field = clazz.getDeclaredField(valueField);
-               VALUE_Field.setAccessible(true);
-               selectItems[i] = new SelectItem(ID_Field.get(o), ""
-                        + VALUE_Field.get(o));
+               selectItems[i] = new SelectItem(ID_Field.get(ID_Class.cast(o)), ""
+                        + VALUE_Field.get(VALUE_Class.cast(o)));
                i++;
             }
-            catch (IllegalArgumentException e)
+            catch (Exception e)
             {
-               logger.info(e.getMessage());
-            }
-            catch (IllegalAccessException e)
-            {
-               logger.info(e.getMessage());
-            }
-            catch (SecurityException e)
-            {
-               logger.info(e.getMessage());
-            }
-            catch (NoSuchFieldException e)
-            {
-               logger.info(e.getMessage());
+               logger.info(e.getClass().getCanonicalName() + " - " + e.getMessage());
             }
          }
       }

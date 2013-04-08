@@ -89,7 +89,7 @@ public abstract class AbstractRequestController<T> implements Serializable,
    // --- Costruttore interno ------------------------
    // ------------------------------------------------
 
-   @SuppressWarnings("rawtypes")
+   @SuppressWarnings({ "rawtypes", "unchecked" })
    protected void injectTSessionAndPages()
    {
       //
