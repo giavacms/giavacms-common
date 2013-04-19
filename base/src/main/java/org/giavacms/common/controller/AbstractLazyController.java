@@ -172,7 +172,6 @@ public abstract class AbstractLazyController<T> implements Serializable
 
    }
 
-   @SuppressWarnings("unused")
    @PostConstruct
    private void init()
    {
@@ -682,7 +681,6 @@ public abstract class AbstractLazyController<T> implements Serializable
       return editPage();
    }
 
-   @SuppressWarnings("unchecked")
    public String viewElement()
    {
       // fetch dei dati
@@ -701,7 +699,6 @@ public abstract class AbstractLazyController<T> implements Serializable
    /**
     * @return
     */
-   @SuppressWarnings("unchecked")
    public String modElement()
    {
       // fetch dei dati;
@@ -720,7 +717,6 @@ public abstract class AbstractLazyController<T> implements Serializable
    /**
     * @return
     */
-   @SuppressWarnings("unchecked")
    public String printElement()
    {
       // fetch dei dati;
@@ -865,7 +861,6 @@ public abstract class AbstractLazyController<T> implements Serializable
       }
    }
 
-   @SuppressWarnings("unchecked")
    @Deprecated
    public String modInline()
    {
@@ -919,7 +914,6 @@ public abstract class AbstractLazyController<T> implements Serializable
       rows.set(rowIndex, getRepository().find(getId(rowElement)));
    }
 
-   @SuppressWarnings("unchecked")
    public void deleteInline()
    {
       T rowElement = (T) getModel().getRowData();
