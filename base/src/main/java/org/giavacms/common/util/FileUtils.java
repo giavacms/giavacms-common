@@ -140,9 +140,10 @@ public class FileUtils
 
    public static byte[] getBytesFromFile(File file)
    {
+      InputStream is = null;
       try
       {
-         InputStream is = new FileInputStream(file);
+         is = new FileInputStream(file);
          // Get the size of the file
          long length = file.length();
          if (length > Integer.MAX_VALUE)
@@ -166,14 +167,26 @@ public class FileUtils
             throw new IOException("Could not completely read file "
                      + file.getName());
          }
-         // Close the input stream and return bytes
-         is.close();
          return bytes;
       }
       catch (Exception e)
       {
          logger.error(e.getMessage(), e);
          return null;
+      }
+      finally
+      {
+         if (is != null)
+         {
+            try
+            {
+               // Close the input stream in any case
+               is.close();
+            }
+            catch (Exception e)
+            {
+            }
+         }
       }
    }
 
@@ -254,8 +267,7 @@ public class FileUtils
 
    public static boolean deleteQuietly(String abs_filename)
    {
-      return deleteQuietly(new File(
-               abs_filename));
+      return deleteQuietly(new File(abs_filename));
    }
 
    public static boolean deleteQuietly(File file)
@@ -338,10 +350,10 @@ public class FileUtils
          {
             if (!filePresent)
             {
-               throw new FileNotFoundException("File does not exist: " + file);
+               throw new FileNotFoundException("File does not exist: "
+                        + file);
             }
-            String message =
-                     "Unable to delete file: " + file;
+            String message = "Unable to delete file: " + file;
             throw new IOException(message);
          }
       }
@@ -357,8 +369,7 @@ public class FileUtils
       cleanDirectory(directory);
       if (!directory.delete())
       {
-         String message =
-                  "Unable to delete directory " + directory + ".";
+         String message = "Unable to delete directory " + directory + ".";
          throw new IOException(message);
       }
    }

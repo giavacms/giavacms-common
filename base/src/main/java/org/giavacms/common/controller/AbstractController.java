@@ -171,7 +171,6 @@ public abstract class AbstractController<T> implements Serializable
 
    }
 
-   @SuppressWarnings("unused")
    @PostConstruct
    private void init()
    {
