@@ -35,6 +35,7 @@ public class Search<T> implements Serializable
 
    private String defaultOrder;
    private String order;
+   private String grouping;
    private boolean orderAsc = true;
 
    // --------- Service ----------------------------------------
@@ -249,6 +250,16 @@ public class Search<T> implements Serializable
    public void setWithH(boolean withH)
    {
       this.withH = withH;
+   }
+
+   public String getGrouping()
+   {
+      return grouping;
+   }
+
+   public void setGrouping(String group)
+   {
+      this.grouping = group;
    }
 
 }
