@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -30,8 +31,8 @@ import javax.persistence.criteria.Root;
 
 import org.giavacms.common.annotation.LogOperation;
 import org.giavacms.common.model.BaseEntity;
+import org.giavacms.common.model.Group;
 import org.giavacms.common.model.Search;
-
 
 /**
  * @author fiorenzo pizza
@@ -273,13 +274,13 @@ public abstract class AbstractRepository<T> implements Serializable,
     * @see com.eggsweb.commons.repository.Repository#getList(com.eggsweb.commons .par.Search, int, int)
     */
    @SuppressWarnings("unchecked")
-   public List<T> getList(Search<T> ricerca, int startRow, int pageSize)
+   public List<T> getList(Search<T> search, int startRow, int pageSize)
    {
       try
       {
          List<T> result = null;
          boolean count = false;
-         Query res = getRestrictions(ricerca, count);
+         Query res = getRestrictions(search, count);
          if (res == null)
             return result;
          if (startRow >= 0)
@@ -303,19 +304,103 @@ public abstract class AbstractRepository<T> implements Serializable,
       }
    }
 
+   @SuppressWarnings("unchecked")
+   public List<Group<T>> getGroups(Search<T> search, int startRow, int pageSize)
+   {
+      List<Group<T>> result = new ArrayList<Group<T>>();
+      try
+      {
+         if (search.getGrouping() == null || search.getGrouping().trim().length() == 0
+                  || search.getGrouping().trim().split(",").length == 0)
+         {
+            List<T> list = getList(search, startRow, pageSize);
+            for (T t : list)
+            {
+               result.add(new Group<T>(1L, t));
+            }
+            return result;
+         }
+         Map<String, Object> params = new HashMap<String, Object>();
+         String alias = "c";
+         StringBuffer sb = new StringBuffer();
+         String groups[] = search.getGrouping().trim().split(",");
+         String countAlias = "counting";
+         sb.append("select count(").append(alias).append(".").append(groups[0]).append(") as ").append(countAlias).append(", ");
+         for (int i = 0; i < groups.length; i++)
+         {
+            sb.append(alias).append(".").append(groups[i]).append(i == groups.length - 1 ? "" : ", ");
+         }
+         sb.append(" from ").append(search.getObj().getClass().getSimpleName()).append(" ").append(alias);
+         String separator = " where ";
+         applyRestrictions(search, alias, separator, sb, params);
+         sb.append(" group by ");
+         for (int i = 0; i < groups.length; i++)
+         {
+            sb.append(alias).append(".").append(groups[i]).append(i == groups.length - 1 ? "" : ", ");
+         }
+         sb.append(" order by ").append(countAlias).append(" desc ");
+         Query q = getEm().createQuery(sb.toString());
+         for (String param : params.keySet())
+         {
+            q.setParameter(param, params.get(param));
+         }
+         if (startRow >= 0)
+         {
+            q.setFirstResult(startRow);
+         }
+         if (pageSize > 0)
+         {
+            q.setMaxResults(pageSize);
+         }
+         List<Object[]> resultList = (List<Object[]>) q.getResultList();
+         if (resultList == null || resultList.size() == 0 )
+         {
+            return result;
+         }
+         Long max = (Long) resultList.get(0)[0];
+         for (Object[] resultItem : resultList)
+         {
+            T t = construct(Arrays.asList(groups), Arrays.asList(resultItem)
+                     .subList(1, resultItem.length));
+            if (t != null)
+            {
+               result.add(new Group<T>((Long) resultItem[0], t, max));
+            }
+         }
+         return result;
+      }
+      catch (Exception ex)
+      {
+         logger.log(Level.SEVERE, null, ex);
+         return result;
+      }
+   }
+
+   /**
+    * Override this
+    * 
+    * @param asList
+    * @param subList
+    * @return
+    */
+   protected T construct(List<String> fieldNames, List<Object> fieldValues)
+   {
+      return null;
+   }
+
    /*
     * (non-Javadoc)
     * 
     * @see com.eggsweb.commons.repository.Repository#getListSize(com.eggsweb.commons .par.Search)
     */
-   public int getListSize(Search<T> ricerca)
+   public int getListSize(Search<T> search)
    {
       Long result = new Long(0);
       try
       {
 
          boolean count = true;
-         Query res = getRestrictions(ricerca, count);
+         Query res = getRestrictions(search, count);
 
          if ((res != null))
          {
