@@ -29,7 +29,6 @@ import org.giavacms.common.util.BeanUtils;
 import org.giavacms.common.util.JSFUtils;
 import org.jboss.logging.Logger;
 
-
 public abstract class AbstractRequestController<T> implements Serializable,
          UiRepeatInterface<T>
 {
@@ -172,12 +171,17 @@ public abstract class AbstractRequestController<T> implements Serializable,
          Object p = JSFUtils.getParameter(param);
          params.put(param, p == null ? null : p.toString());
       }
-      Object p = JSFUtils.getParameter(getIdParam());
+      Object p = getIdValue();
       this.id = (p == null) ? null : p.toString();
       if (this.id != null)
       {
          this.element = this.repository.fetch(this.id);
       }
+   }
+
+   protected Object getIdValue()
+   {
+      return JSFUtils.getParameter(getIdParam());
    }
 
    protected abstract String[] getParamNames();
