@@ -17,12 +17,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 
-import org.giavacms.common.annotation.BackPage;
-import org.giavacms.common.annotation.EditPage;
-import org.giavacms.common.annotation.ListPage;
 import org.giavacms.common.annotation.OwnRepository;
-import org.giavacms.common.annotation.PrintPage;
-import org.giavacms.common.annotation.ViewPage;
 import org.giavacms.common.renderer.UiRepeatInterface;
 import org.giavacms.common.repository.Repository;
 import org.giavacms.common.util.BeanUtils;
@@ -48,40 +43,19 @@ public abstract class AbstractRequestController<T> implements Serializable,
    protected Map<String, String> params;
 
    /**
-    * Pagina di provenienza, settabile dall'esterno attraverso i corrispondenti metodi Possibile override per forzare
-    * una determinata backpage tramite gli handler concreti che estendono questa classe
-    */
-   private String backPage = null;
-
-   /**
-    * Pagina per la vista elenco
-    */
-   private String listPage = null;
-
-   /**
-    * Pagina per la vista dettaglio
-    */
-   private String viewPage = null;
-
-   /**
-    * Pagina per la vista modifica
-    */
-   private String editPage = null;
-
-   /**
-    * Pagina per la stampa
-    */
-   private String printPage = null;
-
-   /**
     * Repository per fare query su db
     */
    private Repository<T> repository;
 
    public AbstractRequestController()
    {
-      this.injectTSessionAndPages();
-      init();
+   }
+
+   @PostConstruct
+   public void postConstruct()
+   {
+      injectOwnRepository();
+      initParameters();
    }
 
    // ------------------------------------------------
@@ -89,7 +63,7 @@ public abstract class AbstractRequestController<T> implements Serializable,
    // ------------------------------------------------
 
    @SuppressWarnings({ "rawtypes", "unchecked" })
-   protected void injectTSessionAndPages()
+   protected void injectOwnRepository()
    {
       //
 
@@ -100,42 +74,7 @@ public abstract class AbstractRequestController<T> implements Serializable,
          {
             OwnRepository repository_anno = field
                      .getAnnotation(OwnRepository.class);
-            PrintPage print_anno = field.getAnnotation(PrintPage.class);
-            BackPage back_anno = field.getAnnotation(BackPage.class);
-            ListPage list_anno = field.getAnnotation(ListPage.class);
-            EditPage edit_anno = field.getAnnotation(EditPage.class);
-            ViewPage view_anno = field.getAnnotation(ViewPage.class);
 
-            if (print_anno != null)
-            {
-               field.setAccessible(true);
-               Object page = field.get(null);
-               this.printPage = "" + page;
-            }
-            if (back_anno != null)
-            {
-               field.setAccessible(true);
-               Object page = field.get(null);
-               this.backPage = "" + page;
-            }
-            if (list_anno != null)
-            {
-               field.setAccessible(true);
-               Object page = field.get(null);
-               this.listPage = "" + page;
-            }
-            if (edit_anno != null)
-            {
-               field.setAccessible(true);
-               Object page = field.get(null);
-               this.editPage = "" + page;
-            }
-            if (view_anno != null)
-            {
-               field.setAccessible(true);
-               Object page = field.get(null);
-               this.viewPage = "" + page;
-            }
             try
             {
                if (repository_anno != null)
@@ -151,31 +90,20 @@ public abstract class AbstractRequestController<T> implements Serializable,
             }
 
          }
-         catch (IllegalArgumentException e)
-         {
-            logger.error(e.getMessage(), e);
-         }
-         catch (IllegalAccessException e)
+         catch (Exception e)
          {
             logger.error(e.getMessage(), e);
          }
       }
    }
 
-   @PostConstruct
-   protected void init()
+   protected void initParameters()
    {
       params = new HashMap<String, String>();
       for (String param : getParamNames())
       {
          Object p = JSFUtils.getParameter(param);
          params.put(param, p == null ? null : p.toString());
-      }
-      Object p = getIdValue();
-      this.id = (p == null) ? null : p.toString();
-      if (this.id != null)
-      {
-         this.element = this.repository.fetch(this.id);
       }
    }
 
@@ -200,6 +128,15 @@ public abstract class AbstractRequestController<T> implements Serializable,
 
    public T getElement()
    {
+      if (this.element == null)
+      {
+         Object p = getIdValue();
+         this.id = (p == null) ? null : p.toString();
+         if (this.id != null)
+         {
+            this.element = this.repository.fetch(this.id);
+         }
+      }
       return element;
    }
 
@@ -252,40 +189,6 @@ public abstract class AbstractRequestController<T> implements Serializable,
    {
       setPageSize(size);
       return getPage();
-   }
-
-   /**
-    * Pagina di provenienza, settabile dall'esterno (cioè da altri handler!) Possibile override per forzare una
-    * determinata backpage tramite gli handler concreti che estendono questa classe
-    */
-   public void backPage(String backPage)
-   {
-      this.backPage = backPage;
-   }
-
-   public String backPage()
-   {
-      return this.backPage;
-   }
-
-   public String viewPage()
-   {
-      return viewPage;
-   }
-
-   public String listPage()
-   {
-      return listPage;
-   }
-
-   public String editPage()
-   {
-      return editPage;
-   }
-
-   public String printPage()
-   {
-      return printPage;
    }
 
    // commodities
