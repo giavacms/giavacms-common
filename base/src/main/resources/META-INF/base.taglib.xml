@@ -23,14 +23,6 @@
   <tag-name>primeBreadcrumbs</tag-name>
   <source>base/primeBreadcrumbs.xhtml</source>
  </tag>
- <tag>
-  <tag-name>spacer</tag-name>
-  <source>base/spacer.xhtml</source>
- </tag>
- <tag>
-  <tag-name>center</tag-name>
-  <source>base/center.xhtml</source>
- </tag>
  <function>
   <function-name>bcrumbs</function-name>
   <function-class>org.giavacms.common.util.JSFUtils</function-class>
