@@ -8,6 +8,7 @@ package org.giavacms.common.controller;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 
 import org.giavacms.common.annotation.OwnRepository;
+import org.giavacms.common.model.Search;
 import org.giavacms.common.renderer.UiRepeatInterface;
 import org.giavacms.common.repository.Repository;
 import org.giavacms.common.util.BeanUtils;
@@ -43,12 +45,26 @@ public abstract class AbstractRequestController<T> implements Serializable,
    protected Map<String, String> params;
 
    /**
+    * Entity class
+    */
+   private Class<T> entityClass;
+
+   /**
+    * Search object
+    */
+   protected Search<T> search;
+
+   /**
     * Repository per fare query su db
     */
    private Repository<T> repository;
 
+   @SuppressWarnings({ "rawtypes", "unchecked" })
    public AbstractRequestController()
    {
+      this.entityClass = getClassType();
+      // defaultCriteria();
+      search = new Search(this.entityClass);
    }
 
    @PostConstruct
@@ -217,6 +233,38 @@ public abstract class AbstractRequestController<T> implements Serializable,
          fm.setSeverity(FacesMessage.SEVERITY_ERROR);
       }
       FacesContext.getCurrentInstance().addMessage(forComponentId, fm);
+   }
+
+   public Search<T> getSearch()
+   {
+      if (search == null)
+      {
+         search = new Search<T>(this.getClassType());
+      }
+      return search;
+   }
+
+   public void setSearch(Search<T> search)
+   {
+      this.search = search;
+   }
+
+   /**
+    * @return
+    */
+   @SuppressWarnings({ "rawtypes", "unchecked" })
+   private Class<T> getClassType()
+   {
+      Class clazz = getClass();
+      while (!(clazz.getGenericSuperclass() instanceof ParameterizedType))
+      {
+         clazz = clazz.getSuperclass();
+      }
+      ParameterizedType parameterizedType = (ParameterizedType) clazz
+               .getGenericSuperclass();
+      // ParameterizedType parameterizedType = (ParameterizedType) getClass()
+      // .getSuperclass().getGenericSuperclass();
+      return (Class<T>) parameterizedType.getActualTypeArguments()[0];
    }
 
 }
