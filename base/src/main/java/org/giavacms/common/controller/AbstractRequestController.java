@@ -194,8 +194,6 @@ public abstract class AbstractRequestController<T> implements Serializable,
       this.pageSize = pageSize;
    }
 
-   abstract protected List<T> loadPage(int startRow, int pageSize);
-
    public List<T> getPage()
    {
       return loadPage((getCurrentPage() - 1) * getPageSize(), getPageSize());
@@ -244,11 +242,6 @@ public abstract class AbstractRequestController<T> implements Serializable,
       return search;
    }
 
-   public void setSearch(Search<T> search)
-   {
-      this.search = search;
-   }
-
    /**
     * @return
     */
@@ -265,6 +258,17 @@ public abstract class AbstractRequestController<T> implements Serializable,
       // ParameterizedType parameterizedType = (ParameterizedType) getClass()
       // .getSuperclass().getGenericSuperclass();
       return (Class<T>) parameterizedType.getActualTypeArguments()[0];
+   }
+
+   public List<T> loadPage(int startRow, int pageSize)
+   {
+      return this.repository.getList(getSearch(), startRow, pageSize);
+   }
+
+   @Override
+   public int totalSize()
+   {
+      return this.repository.getListSize(getSearch());
    }
 
 }
