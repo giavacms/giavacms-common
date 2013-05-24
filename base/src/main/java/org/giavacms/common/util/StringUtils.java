@@ -209,4 +209,21 @@ public class StringUtils
       return src.substring(0, pos) + "...";
    }
 
+   public static String substring(String str, int len, boolean dots)
+   {
+      if (len < 0)
+      {
+         return str;
+      }
+      if (str == null)
+      {
+         return null;
+      }
+      if (str.length() < len)
+      {
+         return str;
+      }
+      return str.substring(0, len) + (dots ? "..." : "");
+   }
+
 }
