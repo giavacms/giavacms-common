@@ -271,4 +271,15 @@ public abstract class AbstractRequestController<T> implements Serializable,
       return this.repository.getListSize(getSearch());
    }
 
+   public void setPageSizeAsString(String s)
+   {
+      try
+      {
+         this.setPageSize(Integer.parseInt(s));
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getClass().getCanonicalName());
+      }
+   }
 }
