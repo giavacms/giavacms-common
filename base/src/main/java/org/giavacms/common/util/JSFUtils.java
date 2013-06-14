@@ -6,6 +6,7 @@
  */
 package org.giavacms.common.util;
 
+import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
