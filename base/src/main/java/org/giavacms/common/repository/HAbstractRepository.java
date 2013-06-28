@@ -8,7 +8,6 @@ package org.giavacms.common.repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 import org.giavacms.common.model.Search;
 import org.hibernate.Criteria;
@@ -70,7 +69,7 @@ public abstract class HAbstractRepository<T> extends AbstractRepository<T>
       }
       catch (Exception ex)
       {
-         logger.log(Level.SEVERE, null, ex);
+logger.error(ex.getMessage(),ex);
          return null;
       }
    }
@@ -85,7 +84,7 @@ public abstract class HAbstractRepository<T> extends AbstractRepository<T>
       }
       catch (Exception ex)
       {
-         logger.log(Level.SEVERE, null, ex);
+         logger.error(ex.getMessage(), ex);
          return null;
       }
    }
