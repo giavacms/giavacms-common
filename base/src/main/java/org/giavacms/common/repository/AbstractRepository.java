@@ -7,6 +7,7 @@
 package org.giavacms.common.repository;
 
 import java.io.Serializable;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
@@ -15,8 +16,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -33,6 +32,7 @@ import org.giavacms.common.annotation.LogOperation;
 import org.giavacms.common.model.BaseEntity;
 import org.giavacms.common.model.Group;
 import org.giavacms.common.model.Search;
+import org.jboss.logging.Logger;
 
 /**
  * @author fiorenzo pizza
@@ -85,7 +85,7 @@ public abstract class AbstractRepository<T> implements Serializable,
       }
       catch (Exception ex)
       {
-         logger.log(Level.SEVERE, null, ex);
+logger.error(ex.getMessage(),ex);
          return null;
       }
    }
@@ -109,7 +109,7 @@ public abstract class AbstractRepository<T> implements Serializable,
       }
       catch (Exception e)
       {
-         logger.log(Level.SEVERE, null, e);
+logger.error(e.getMessage(),e);
          return null;
       }
    }
@@ -138,7 +138,7 @@ public abstract class AbstractRepository<T> implements Serializable,
       }
       catch (Exception e)
       {
-         logger.log(Level.SEVERE, null, e);
+logger.error(e.getMessage(),e);
          return null;
       }
    }
@@ -182,7 +182,7 @@ public abstract class AbstractRepository<T> implements Serializable,
       }
       catch (Exception e)
       {
-         logger.log(Level.SEVERE, null, e);
+logger.error(e.getMessage(),e);
          return null;
       }
    }
@@ -203,7 +203,7 @@ public abstract class AbstractRepository<T> implements Serializable,
       }
       catch (Exception e)
       {
-         logger.log(Level.SEVERE, null, e);
+logger.error(e.getMessage(),e);
          return false;
       }
    }
@@ -239,7 +239,7 @@ public abstract class AbstractRepository<T> implements Serializable,
       }
       catch (Exception e)
       {
-         logger.log(Level.SEVERE, null, e);
+logger.error(e.getMessage(),e);
          return false;
       }
    }
@@ -263,7 +263,7 @@ public abstract class AbstractRepository<T> implements Serializable,
       }
       catch (Exception ex)
       {
-         logger.log(Level.SEVERE, null, ex);
+logger.error(ex.getMessage(),ex);
          return new ArrayList<T>();
       }
    }
@@ -299,7 +299,7 @@ public abstract class AbstractRepository<T> implements Serializable,
       }
       catch (Exception ex)
       {
-         logger.log(Level.SEVERE, null, ex);
+logger.error(ex.getMessage(),ex);
          return new ArrayList<T>();
       }
    }
@@ -325,7 +325,8 @@ public abstract class AbstractRepository<T> implements Serializable,
          StringBuffer sb = new StringBuffer();
          String groups[] = search.getGrouping().trim().split(",");
          String countAlias = "counting";
-         sb.append("select count(").append(alias).append(".").append(groups[0]).append(") as ").append(countAlias).append(", ");
+         sb.append("select count(").append(alias).append(".").append(groups[0]).append(") as ").append(countAlias)
+                  .append(", ");
          for (int i = 0; i < groups.length; i++)
          {
             sb.append(alias).append(".").append(groups[i]).append(i == groups.length - 1 ? "" : ", ");
@@ -353,7 +354,7 @@ public abstract class AbstractRepository<T> implements Serializable,
             q.setMaxResults(pageSize);
          }
          List<Object[]> resultList = (List<Object[]>) q.getResultList();
-         if (resultList == null || resultList.size() == 0 )
+         if (resultList == null || resultList.size() == 0)
          {
             return result;
          }
@@ -371,7 +372,7 @@ public abstract class AbstractRepository<T> implements Serializable,
       }
       catch (Exception ex)
       {
-         logger.log(Level.SEVERE, null, ex);
+         logger.error(ex.getMessage(), ex);
          return result;
       }
    }
@@ -616,7 +617,7 @@ public abstract class AbstractRepository<T> implements Serializable,
       }
       catch (Exception e)
       {
-         logger.log(Level.SEVERE, null, e);
+         logger.error(e.getMessage(), e);
          throw new Exception(e);
       }
       return p;
