@@ -55,20 +55,33 @@ public class MappingViewHandler extends ViewHandlerWrapper
             boolean paramBoolean)
    {
       logger.debug("getRedirectURL: " + paramString);
-      paramString = paramString.replace(MappingFilter.getPagesPath(), ROOT_PATH);
 
-      if (paramString != null && !paramString.trim().isEmpty())
+      if (paramString == null || paramString.isEmpty())
       {
-         int dotIdx = paramString.lastIndexOf(".");
-         if (dotIdx > 0)
-         {
-            paramString = paramString.substring(0, dotIdx);
-         }
-         logger.debug("getRedirectURL rewrite:" + paramString);
-         HttpServletRequest httpServletRequest = (HttpServletRequest) paramFacesContext
-                  .getExternalContext().getRequest();
-         httpServletRequest.setAttribute(MappingFilter.ORIGINAL_URI_ATTRIBUTE_NAME, paramString);
+         return super.getRedirectURL(paramFacesContext, paramString, paramMap,
+                  paramBoolean);
       }
+      for (String reservedPath : MappingFilter.getReservedPaths())
+      {
+         if (paramString.startsWith(reservedPath))
+         {
+            return super.getRedirectURL(paramFacesContext, paramString, paramMap,
+                     paramBoolean);
+         }
+      }
+
+      paramString = paramString.replace(MappingFilter.getPagesPath(), ROOT_PATH);
+      int dotIdx = paramString.lastIndexOf(".");
+      if (dotIdx > 0)
+      {
+         paramString = paramString.substring(0, dotIdx);
+      }
+
+      logger.debug("getRedirectURL rewrite:" + paramString);
+      HttpServletRequest httpServletRequest = (HttpServletRequest) paramFacesContext
+               .getExternalContext().getRequest();
+      httpServletRequest.setAttribute(MappingFilter.ORIGINAL_URI_ATTRIBUTE_NAME, paramString);
+
       return super.getRedirectURL(paramFacesContext, paramString, paramMap,
                paramBoolean);
    }
