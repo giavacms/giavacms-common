@@ -73,7 +73,7 @@ public class MappingFilter extends HttpServlet implements Filter
          }
          for (String reservedExtension : reservedExtensions)
          {
-            if (uri.toUpperCase().endsWith(reservedExtension))
+            if (uri.toUpperCase().endsWith(reservedExtension.toUpperCase()))
             {
                // no filtering here.. let's move on to the next filter in chain
                chain.doFilter(request, response);
