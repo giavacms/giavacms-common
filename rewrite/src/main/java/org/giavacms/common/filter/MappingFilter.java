@@ -36,15 +36,19 @@ public class MappingFilter extends HttpServlet implements Filter
    private static final String SEMICOLON_CHAR = ";";
 
    private FilterConfig filterConfig;
-   private String[] reservedPaths;
-   private String[] reservedExtensions;
+   private static String[] reservedExtensions;
+   private static String[] reservedPaths;
    private static String pagesPath;
-   private String facesExtension;
-   private String pagesExtension;
+   private static String facesExtension;
+   private static String pagesExtension;
 
    public static String getPagesPath()
    {
       return pagesPath;
+   }
+   public static String[] getReservedPaths()
+   {
+      return reservedPaths;
    }
 
    public void doFilter(ServletRequest request, ServletResponse response,
