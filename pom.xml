@@ -50,6 +50,7 @@
 
 	<modules>
 		<module>base</module>
+		<module>rewrite</module>
 		<module>print</module>
 		<module>web</module>
 		<module>jpa</module>
