@@ -14,9 +14,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
-import org.giavacms.base.service.CacheService;
-import org.giavacms.base.service.FileSystemWriterService;
-import org.giavacms.common.util.BeanUtils;
 import org.jboss.logging.Logger;
 
 public class MappingFilter extends HttpServlet implements Filter
@@ -154,8 +151,6 @@ public class MappingFilter extends HttpServlet implements Filter
       {
          pagesPath += SLASH_CHAR;
       }
-      BeanUtils.getBean(FileSystemWriterService.class).setPagesPath(pagesPath);
-      BeanUtils.getBean(CacheService.class).writeAll();
 
       String _reservedPaths = this.filterConfig.getInitParameter(RESERVED_PATHS_PARAM_NAME);
       if (_reservedPaths == null || _reservedPaths.trim().length() == 0)
