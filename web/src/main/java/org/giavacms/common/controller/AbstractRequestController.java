@@ -70,8 +70,14 @@ public abstract class AbstractRequestController<T> implements Serializable,
    @PostConstruct
    public void postConstruct()
    {
+      initPage();
       injectOwnRepository();
       initParameters();
+   }
+
+   private void initPage()
+   {
+      this.id = JSFUtils.getPageId();
    }
 
    // ------------------------------------------------
@@ -146,8 +152,12 @@ public abstract class AbstractRequestController<T> implements Serializable,
    {
       if (this.element == null)
       {
-         Object p = getIdValue();
-         this.id = (p == null) ? null : p.toString();
+         if (getId() == null)
+         {
+            Object p = getIdValue();
+            this.id = (p == null) ? null : p.toString();
+         }
+
          if (this.id != null)
          {
             this.element = this.repository.fetch(this.id);

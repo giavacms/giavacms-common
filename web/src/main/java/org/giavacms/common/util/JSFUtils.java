@@ -76,6 +76,17 @@ public class JSFUtils
       return httpRequest.getRequestURI();
    }
 
+   public static String getPageId()
+   {
+      String pageId = getCurrentPage();
+      if (pageId.contains("/"))
+         pageId = pageId.substring(pageId.lastIndexOf("/") + 1);
+      if (pageId.contains(".jsf"))
+         pageId = pageId.substring(0, pageId.lastIndexOf(".jsf"));
+      System.out.println("page id: " + pageId);
+      return pageId;
+   }
+
    public static String getContextPath()
    {
       FacesContext fc = FacesContext.getCurrentInstance();
@@ -323,7 +334,7 @@ public class JSFUtils
       return primeBreadcrumbs(url);
    }
 
-   public static void main(String[] args)
+   public static void main2(String[] args)
    {
       primeBreadcrumbs("martina-pietraia.rhcloud.com/private/page/edit.jsf");
    }
