@@ -18,11 +18,11 @@ import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 
+import org.giavacms.common.annotation.HttpParam;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.model.Search;
 import org.giavacms.common.renderer.UiRepeatInterface;
 import org.giavacms.common.repository.Repository;
-import org.giavacms.common.util.BeanUtils;
 import org.giavacms.common.util.JSFUtils;
 import org.jboss.logging.Logger;
 
@@ -63,7 +63,6 @@ public abstract class AbstractRequestController<T> implements Serializable,
    public AbstractRequestController()
    {
       this.entityClass = getClassType();
-      // defaultCriteria();
       search = new Search(this.entityClass);
    }
 
@@ -72,10 +71,15 @@ public abstract class AbstractRequestController<T> implements Serializable,
    {
       initPage();
       injectOwnRepository();
-      initParameters();
+      initHttpParams();
+      initSearch();
    }
 
-   private void initPage()
+   protected void initSearch()
+   {
+   }
+
+   protected void initPage()
    {
       this.id = JSFUtils.getPageId();
    }
@@ -101,9 +105,11 @@ public abstract class AbstractRequestController<T> implements Serializable,
             {
                if (repository_anno != null)
                {
-                  Class clazz = repository_anno.value();
-                  this.repository = (Repository<T>) BeanUtils
-                           .getBean(clazz);
+                  // Class clazz = repository_anno.value();
+                  // this.repository = (Repository<T>) BeanUtils
+                  // .getBean(clazz);
+                  field.setAccessible(true);
+                  this.repository = (Repository) field.get(this);
                }
             }
             catch (Exception e)
@@ -119,22 +125,54 @@ public abstract class AbstractRequestController<T> implements Serializable,
       }
    }
 
-   protected void initParameters()
+   protected void initHttpParams()
    {
-      params = new HashMap<String, String>();
-      for (String param : getParamNames())
+      Field[] fields = getClass().getDeclaredFields();
+      for (Field field : fields)
       {
-         Object p = JSFUtils.getParameter(param);
-         params.put(param, p == null ? null : p.toString());
+         try
+         {
+            HttpParam httpparam_anno = field
+                     .getAnnotation(HttpParam.class);
+
+            try
+            {
+               if (httpparam_anno != null)
+               {
+                  field.setAccessible(true);
+                  String paramname = httpparam_anno.value();
+                  getParams().put(paramname, (String) field.get(this));
+               }
+            }
+            catch (Exception e)
+            {
+               e.printStackTrace();
+            }
+
+         }
+         catch (Exception e)
+         {
+            logger.error(e.getMessage(), e);
+         }
       }
    }
+
+   // protected void initParameters()
+   // {
+   // params = new HashMap<String, String>();
+   // for (String param : getParamNames())
+   // {
+   // Object p = JSFUtils.getParameter(param);
+   // params.put(param, p == null ? null : p.toString());
+   // }
+   // }
 
    protected Object getIdValue()
    {
       return JSFUtils.getParameter(getIdParam());
    }
 
-   protected abstract String[] getParamNames();
+   // protected abstract String[] getParamNames();
 
    protected abstract String getIdParam();
 
@@ -178,6 +216,10 @@ public abstract class AbstractRequestController<T> implements Serializable,
 
    public Map<String, String> getParams()
    {
+      if (params == null)
+      {
+         params = new HashMap<String, String>();
+      }
       return params;
    }
 
@@ -292,4 +334,6 @@ public abstract class AbstractRequestController<T> implements Serializable,
          logger.error(e.getClass().getCanonicalName());
       }
    }
+
+   
 }
