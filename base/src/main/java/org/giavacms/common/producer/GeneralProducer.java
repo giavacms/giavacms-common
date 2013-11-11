@@ -16,7 +16,6 @@ import javax.servlet.ServletRequest;
 
 import org.giavacms.common.annotation.HttpParam;
 
-
 @Named
 public class GeneralProducer implements Serializable
 {
@@ -24,7 +23,7 @@ public class GeneralProducer implements Serializable
    private static final long serialVersionUID = 1L;
 
    @Produces
-   @HttpParam("")
+   @HttpParam
    String getParamValue(InjectionPoint ip)
    {
       ServletRequest request = (ServletRequest) FacesContext
