@@ -106,25 +106,6 @@ public class RendererFilter implements Filter
 
          try
          {
-
-            // URL fontsUrl = Thread.currentThread().getContextClassLoader()
-            // .getResource("fonts");
-            //
-            // URLConnection conn = fontsUrl.openConnection();
-            // VirtualFile vf = (VirtualFile) conn.getContent();
-            //
-            // File fontsDir = vf.getPhysicalFile();
-            //
-            // // File fontsDir = contentsFile.getParentFile();
-            //
-            // for (String entry : fontsDir.list()) {
-            // if (entry.toUpperCase().endsWith(".TTF")) {
-            // // System.out.println("Adding font " + entry.getName());
-            // renderer.getFontResolver().addFont(entry,
-            // BaseFont.EMBEDDED);
-            // }
-            // }
-
             String[] fonts = { "arialbd.ttf",
                      "Times_New_Roman_Bold_Italic.ttf", "arialbi.ttf",
                      "Times_New_Roman_Bold.ttf", "ariali.ttf",
@@ -209,7 +190,7 @@ public class RendererFilter implements Filter
    public static void main(String[] args) throws Exception
    {
       RendererFilter rf = new RendererFilter();
-      System.out.println("--------------------------------------------");
+      logger.info("--------------------------------------------");
       InputStream is = rf.getFontsStream("fonts.jar");
       if (is != null)
       {
@@ -217,12 +198,12 @@ public class RendererFilter implements Filter
          ZipEntry entry = fontsArchive.getNextEntry();
          while (entry != null)
          {
-            System.out.println(entry.getName());
+            logger.info(entry.getName());
             fontsArchive.closeEntry();
             entry = fontsArchive.getNextJarEntry();
          }
          fontsArchive.close();
-         System.out.println("--------------------------------------------");
+         logger.info("--------------------------------------------");
       }
       File f = rf.getFontsFile("fonts.jar");
       if (f != null)
@@ -232,10 +213,10 @@ public class RendererFilter implements Filter
          while (fonts.hasMoreElements())
          {
             JarEntry entryF = fonts.nextElement();
-            System.out.println(entryF.getName());
+            logger.info(entryF.getName());
          }
          fontsFile.close();
-         System.out.println("--------------------------------------------");
+         logger.info("--------------------------------------------");
       }
    }
 

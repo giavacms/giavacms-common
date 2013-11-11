@@ -20,7 +20,6 @@ import javax.faces.render.Renderer;
 import org.giavacms.common.util.JSFUtils;
 import org.jboss.logging.Logger;
 
-
 @FacesRenderer(componentFamily = "javax.faces.Command", rendererType = "uiRepeatPagerWithParams")
 public class UIRepeatPagerWithParams extends Renderer
 {
@@ -278,12 +277,12 @@ public class UIRepeatPagerWithParams extends Renderer
    {
       Object[] x = UIRepeatPagerWithParams.compute(currentPage, pageSize,
                totalElements, linkVisibili, true);
-      System.out.print(currentPage + " \t=\t ");
+      logger.info(currentPage + " \t=\t ");
       for (Object o : x)
       {
-         System.out.print(o.toString() + " ");
+         logger.info(o.toString() + " ");
       }
-      System.out.print("\n");
+      logger.info("\n");
    }
 
    public UIRepeatPagerWithParams()
