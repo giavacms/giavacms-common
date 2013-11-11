@@ -82,7 +82,7 @@ public class JSFUtils
          pageId = pageId.substring(pageId.lastIndexOf("/") + 1);
       if (pageId.contains(".jsf"))
          pageId = pageId.substring(0, pageId.lastIndexOf(".jsf"));
-      System.out.println("page id: " + pageId);
+      logger.info("page id: " + pageId);
       return pageId;
    }
 

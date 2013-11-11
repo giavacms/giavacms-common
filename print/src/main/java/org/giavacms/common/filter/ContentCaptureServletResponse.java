@@ -39,11 +39,7 @@ public class ContentCaptureServletResponse extends HttpServletResponseWrapper
    {
       writer.flush();
       String xhtmlContent = new String(contentBuffer.toByteArray());
-      // System.out.println("CONTENT: " + xhtmlContent);
-      // xhtmlContent = xhtmlContent.replaceAll("<//thead>", "");
-      // xhtmlContent = xhtmlContent.replaceAll("<thead>", "");
-      // xhtmlContent = xhtmlContent.replaceAll("<tbody>", "");
-      // xhtmlContent = xhtmlContent.replaceAll("<//tbody>", "");
+     
       return xhtmlContent;
    }
 }
