@@ -6,7 +6,6 @@
  */
 package org.giavacms.common.util;
 
-import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -32,9 +31,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.giavacms.common.model.Search;
 import org.giavacms.common.repository.Repository;
-import org.primefaces.component.menuitem.MenuItem;
-import org.primefaces.model.DefaultMenuModel;
-import org.primefaces.model.MenuModel;
+import org.primefaces.model.menu.DefaultMenuItem;
+import org.primefaces.model.menu.DefaultMenuModel;
+import org.primefaces.model.menu.MenuModel;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class JSFUtils
@@ -350,7 +349,7 @@ public class JSFUtils
       String[] crumbs = url.split("/");
       // logger.info("" + Arrays.asList(crumbs));
       // logger.info("context path: " + getContextPath());
-      MenuItem item = null;
+      DefaultMenuItem item = null;
       String label = null;
 
       String base = null;
@@ -367,12 +366,12 @@ public class JSFUtils
 
          if (base == null)
          {
-            item = new MenuItem();
+            item = new DefaultMenuItem();
             base = "/" + crumbs[i];
             label = "home";
             item.setValue(label);
             item.setUrl(base);
-            model.addMenuItem(item);
+            model.addElement(item);
             // logger.info(" |" + item.getValue() + " = " + item.getUrl());
             base += "/";
             continue;
@@ -381,7 +380,7 @@ public class JSFUtils
          // pezzi intermedi
          if (i != (crumbs.length - 1))
          {
-            item = new MenuItem();
+            item = new DefaultMenuItem();
             base += crumbs[i];
             label = crumbs[i];
             // sb.append("<a href=\"" + base + "\" title=\"" + crumbs[i]
@@ -389,7 +388,7 @@ public class JSFUtils
             // sb.append("<span style=\"color: black;\">&gt;</span> ");
             item.setValue(crumbs[i]);
             item.setUrl(base);
-            model.addMenuItem(item);
+            model.addElement(item);
             // logger.info(" |" + item.getValue() + " = " + item.getUrl());
             base += "/";
          }
@@ -397,13 +396,13 @@ public class JSFUtils
          // serve per l'ultimo pezzo del bcrumps: la pagina corrente
          else
          {
-            item = new MenuItem();
+            item = new DefaultMenuItem();
             base += crumbs[i];
             label = crumbs[i].substring(0, crumbs[i].indexOf("."));
             // sb.append("<b>" + label + "</b>");
             item.setValue(label);
             item.setUrl("#");
-            model.addMenuItem(item);
+            model.addElement(item);
             // logger.info(" |" + item.getValue() + " = " + item.getUrl());
             base += "/";
          }
