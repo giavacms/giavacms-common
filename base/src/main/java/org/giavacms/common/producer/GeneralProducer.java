@@ -37,7 +37,7 @@ public class GeneralProducer implements Serializable
 
    @Produces
    @RequestScoped
-   FacesContext getFacesContext()
+   public FacesContext getFacesContext()
    {
       return FacesContext.getCurrentInstance();
    }
