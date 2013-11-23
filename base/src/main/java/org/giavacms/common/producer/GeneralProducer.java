@@ -8,6 +8,7 @@ package org.giavacms.common.producer;
 
 import java.io.Serializable;
 
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.faces.context.FacesContext;
@@ -24,13 +25,21 @@ public class GeneralProducer implements Serializable
 
    @Produces
    @HttpParam
-   String getParamValue(InjectionPoint ip)
+   public String getParamValue(InjectionPoint ip)
    {
       ServletRequest request = (ServletRequest) FacesContext
                .getCurrentInstance().getExternalContext().getRequest();
-      return request.getParameter(ip.getAnnotated()
-               .getAnnotation(HttpParam.class).value());
+      String name = ip.getAnnotated().getAnnotation(HttpParam.class).value();
+      if ("".equals(name))
+         name = ip.getMember().getName();
+      return request.getParameter(name);
+   }
 
+   @Produces
+   @RequestScoped
+   FacesContext getFacesContext()
+   {
+      return FacesContext.getCurrentInstance();
    }
 
 }
