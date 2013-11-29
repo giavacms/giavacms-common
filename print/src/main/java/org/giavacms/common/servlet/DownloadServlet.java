@@ -16,8 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.giavacms.common.util.FileUtils;
+import org.giavacms.common.util.MimeUtils;
 import org.jboss.logging.Logger;
-
 
 /**
  * 
@@ -114,65 +114,7 @@ abstract public class DownloadServlet<T> extends HttpServlet
     */
    protected String getContentType(T object, String filename)
    {
-      if (filename == null || filename.equals(""))
-      {
-         return "text/html";
-      }
-      else if (filename.toLowerCase().endsWith(".pdf"))
-      {
-         return "application/pdf";
-      }
-      else if (filename.toLowerCase().endsWith(".rtf"))
-      {
-         return "application/rtf";
-      }
-      else if (filename.toLowerCase().endsWith(".doc") || filename.toLowerCase().endsWith(".docx"))
-      {
-         return "application/msword";
-      }
-      else if (filename.toLowerCase().endsWith(".xls"))
-      {
-         return "application/excel";
-      }
-      else if (filename.toLowerCase().endsWith(".zip"))
-      {
-         return "application/zip";
-      }
-      else if (filename.toLowerCase().endsWith(".xml"))
-      {
-         return "text/xml";
-      }
-      // application/vnd.openxmlformats .docx .pptx .xlsx .xltx . xltm .dotx
-      // .potx .ppsx
-      else if (filename.toLowerCase().endsWith(".docx") || filename.toLowerCase().endsWith(".pptx")
-               || filename.toLowerCase().endsWith(".xlsx") || filename.toLowerCase().endsWith(".xltx")
-               || filename.toLowerCase().endsWith(".xltm") || filename.toLowerCase().endsWith(".dotx")
-               || filename.toLowerCase().endsWith(".potx") || filename.toLowerCase().endsWith(".ppsx"))
-      {
-         return "application/vnd.openxmlformats";
-      }
-      else if (filename.toLowerCase().endsWith(".jpg") || filename.toLowerCase().endsWith(".jpeg"))
-      {
-         return "image/jpeg";
-      }
-      else if (filename.toLowerCase().endsWith(".png"))
-      {
-         return "image/png";
-      }
-      else if (filename.toLowerCase().endsWith(".gif"))
-      {
-         return "image/gif";
-      }
-      else if (filename.toLowerCase().endsWith(".tif") || filename.toLowerCase().endsWith(".tiff"))
-      {
-         return "image/tiff";
-      }
-      else if (filename.toLowerCase().endsWith(".bmp"))
-      {
-         return "image/bmp";
-      }
-
-      return "text/html";
+      return MimeUtils.getContentType(filename);
    }
 
    protected byte[] getBytesFromUrlAsString(String urlString)
