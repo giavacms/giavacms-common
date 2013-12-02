@@ -12,12 +12,12 @@ import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.faces.context.FacesContext;
-import javax.inject.Named;
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 import org.giavacms.common.annotation.HttpParam;
+import org.giavacms.common.annotation.RequestUri;
 
-@Named
 public class GeneralProducer implements Serializable
 {
 
@@ -30,7 +30,7 @@ public class GeneralProducer implements Serializable
       ServletRequest request = (ServletRequest) FacesContext
                .getCurrentInstance().getExternalContext().getRequest();
       String name = ip.getAnnotated().getAnnotation(HttpParam.class).value();
-      if ("".equals(name))
+      if (name == null || "".equals(name.trim()))
          name = ip.getMember().getName();
       return request.getParameter(name);
    }
@@ -40,6 +40,15 @@ public class GeneralProducer implements Serializable
    public FacesContext getFacesContext()
    {
       return FacesContext.getCurrentInstance();
+   }
+
+   @Produces
+   @RequestUri
+   public String getRequestUri()
+   {
+      String requestURI = ((HttpServletRequest) FacesContext.getCurrentInstance()
+               .getExternalContext().getRequest()).getRequestURI();
+      return requestURI;
    }
 
 }
