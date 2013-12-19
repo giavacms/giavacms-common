@@ -14,8 +14,8 @@
 
 	<packaging>jar</packaging>
 
-	<name>GiavaCMS Common Print Libraries: Main Subsystem</name>
-	<description>GiavaCMS Common Print Libraries: Main Subsystem</description>
+	<name>GiavaCMS Common Libraries: Print Subsystem</name>
+	<description>GiavaCMS Common Libraries : Print Subsystem</description>
 	<url>http://giavacms.org</url>
 
 	<licenses>
