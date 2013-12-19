@@ -15,7 +15,7 @@
 	<packaging>jar</packaging>
 
 	<name>GiavaCMS Common Libraries: Base Subsystem</name>
-	<description>GiavaCMS Common Libraries: Base Subsystem</description>
+	<description>GiavaCMS Common Libraries : Base Subsystem</description>
 	<url>http://giavacms.org</url>
 
 	<licenses>

@@ -14,8 +14,8 @@
 
 	<packaging>jar</packaging>
 
-	<name>GiavaCMS Common Libraries: Base Subsystem</name>
-	<description>GiavaCMS Common Libraries: Base Subsystem</description>
+	<name>GiavaCMS Common Libraries: Rewrite Subsystem</name>
+	<description>GiavaCMS Common Libraries : Rewrite Subsystem</description>
 	<url>http://giavacms.org</url>
 
 	<licenses>

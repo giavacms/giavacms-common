@@ -31,7 +31,6 @@ import org.giavacms.common.util.StringUtils;
 import org.jboss.logging.Logger;
 import org.primefaces.event.RowEditEvent;
 
-
 /**
  * 
  * @param <T>
@@ -52,6 +51,11 @@ public abstract class AbstractLazyController<T> implements Serializable
     * Entity class
     */
    private Class<T> entityClass;
+
+   protected Class<T> getEntityClass()
+   {
+      return entityClass;
+   }
 
    /**
     * Search object
