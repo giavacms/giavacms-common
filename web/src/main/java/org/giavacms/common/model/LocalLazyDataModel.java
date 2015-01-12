@@ -66,7 +66,7 @@ public class LocalLazyDataModel<T> extends LazyDataModel<T> implements
     * @see org.primefaces.model.LazyDataModel#load(int, int, java.lang.String, boolean, java.util.Map)
     */
    public List<T> load(int first, int pageSize, String sortField,
-            boolean sortOrder, Map<String, String> filters)
+            boolean sortOrder, Map<String, Object> filters)
    {
       List<T> data = null;
       if (search.isActive())
@@ -98,7 +98,7 @@ public class LocalLazyDataModel<T> extends LazyDataModel<T> implements
 
    @Override
    public List<T> load(int first, int pageSize, String arg2, SortOrder arg3,
-            Map<String, String> arg4)
+            Map<String, Object> arg4)
    {
       if (repository != null)
       {
