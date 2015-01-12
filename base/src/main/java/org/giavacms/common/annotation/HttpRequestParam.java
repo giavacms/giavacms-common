@@ -20,7 +20,7 @@ import javax.inject.Qualifier;
 @Qualifier
 @Retention(RUNTIME)
 @Target({ METHOD, FIELD, PARAMETER })
-public @interface HttpParam
+public @interface HttpRequestParam
 {
 
    @Nonbinding

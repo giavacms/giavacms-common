@@ -18,7 +18,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 
-import org.giavacms.common.annotation.HttpParam;
+import org.giavacms.common.annotation.HttpRequestParam;
 import org.giavacms.common.annotation.OwnRepository;
 import org.giavacms.common.model.Search;
 import org.giavacms.common.renderer.UiRepeatInterface;
@@ -132,8 +132,8 @@ public abstract class AbstractRequestController<T> implements Serializable,
       {
          try
          {
-            HttpParam httpparam_anno = field
-                     .getAnnotation(HttpParam.class);
+            HttpRequestParam httpparam_anno = field
+                     .getAnnotation(HttpRequestParam.class);
 
             try
             {
